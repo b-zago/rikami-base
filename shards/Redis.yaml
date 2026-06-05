@@ -1,0 +1,12 @@
+{{ $name := "redis" }}
+service:
+  name: {{ $name }}-service
+  runsOn: {{ $name }}
+  port: 6379
+  targetPort: 6379
+deployment:
+  name: {{ $name }}
+  image: {{ .Values.image | default "redis:8-alpine"}}
+  runsOn: {{ $name }}
+  component: cache
+  containerPort: 6379

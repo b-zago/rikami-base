@@ -1,0 +1,21 @@
+{{- $name := "database" }}
+service:
+  name: {{ $name }}-service
+  runsOn: {{ $name }}
+  port: 5432
+  targetPort: 5432
+  clusterIP: None
+secret:
+  name: {{ $name }}-envs
+  runsOnList: [{{ $name }}]
+  data: {{ .Values.data }}
+statefulSet:
+  name: {{ $name }}
+  runsOn: postgres
+  image: {{ .Values.image | default "postgres:18-alpine"}}
+  imagePullSecrets: {{ .Values.imagePullSecrets | default "ghcr-creds"}}
+  containerPort: 5432
+  component: {{ $name }}
+  mountPath: /var/lib/postgresql
+  storage: {{ .Values.storage }}
+  envSecretRefs: [{{ $name }}-envs]

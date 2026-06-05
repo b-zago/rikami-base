@@ -1,0 +1,21 @@
+{{- $name := "web-server" }}
+route:
+  name: {{ $name }}-route
+  runsOn: {{ $name }}-service
+  host: {{ .App }}.{{ .Domain }}
+
+deployment:
+  name: {{ $name }}
+  image: {{ .Values.image }}
+  imagePullSecrets: {{ .Values.imagePullSecrets | default "ghcr-creds"}}
+  runsOn: {{ .Values.runsOn }}
+  component: {{ .Values.component | default "server"}}
+  containerPort: {{ .Values.port }}
+
+service:
+  name: {{ $name }}-service
+  runsOn: {{ $name }}
+  port: {{ .Values.servicePort | default 80}}
+  targetPort: {{ .Values.port }}
+
+
