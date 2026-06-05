@@ -1,22 +1,26 @@
 {{shard "WebServer"}}
 
+{{$name := "web-server"}}
+
 {{begin "Routes"}}
-{{set "name" "web-server-route"}}
-{{set "runsOn" "web-server-service"}}
+{{set "name" "-route"}}
+{{prefix "name" $name}}
+{{set "runsOn" "-service"}}
+{{prefix "runsOn" $name}}
 {{receive "host"}}
 
-{{begin "Services"}}
-{{bind "name" "Routes@runsOn"}}
-{{set "runsOn" "web-server"}}
-{{set "port" 80}}
-{{receive "targetPort"}}
-
 {{begin "Deployments"}}
-{{bind "name" "Services@runsOn"}}
+{{set "name" $name}}
 {{receive "image"}}
 {{set "imagePullSecret" "ghcr-creds"}}
 {{receive "runsOn"}}
 {{set "component" "server"}}
-{{bind "containerPort" "Services@targetPort"}}
+{{receive "containerPort"}}
+
+{{begin "Services"}}
+{{bind "name" "Routes@runsOn"}}
+{{set "runsOn" $name}}
+{{set "port" 80}}
+{{bind "targetPort" "Deployments@containerPort"}}
 
 {{seal}}

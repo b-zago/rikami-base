@@ -3,7 +3,7 @@
 {{begin "Main"}}
 {{set "apiVersion" "v2"}}
 {{receive "name"}}
-{{receive "description"}}
+{{set "description" "Deployed via Rikami"}}
 {{set "type" "application"}}
 {{set "version" "0.1.0"}}
 {{set "appVersion" "1.0"}}
