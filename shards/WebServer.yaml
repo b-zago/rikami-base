@@ -1,11 +1,10 @@
-{{- $name := "web-server" }}
 route:
-  name: {{ $name }}-route
-  runsOn: {{ $name }}-service
+  name: {{ .Name }}-route
+  runsOn: {{ .Name }}-service
   host: {{ .App }}.{{ .Domain }}
 
 deployment:
-  name: {{ $name }}
+  name: {{ .Name }}
   image: {{ .Values.image }}
   imagePullSecrets: {{ .Values.imagePullSecrets | default "ghcr-creds"}}
   runsOn: {{ .Values.runsOn }}
@@ -13,8 +12,8 @@ deployment:
   containerPort: {{ .Values.port }}
 
 service:
-  name: {{ $name }}-service
-  runsOn: {{ $name }}
+  name: {{ .Name }}-service
+  runsOn: {{ .Name }}
   port: {{ .Values.servicePort | default 80}}
   targetPort: {{ .Values.port }}
 
