@@ -7,7 +7,7 @@ service:
 secret:
   name: {{ .Name }}-envs
   runsOnList: [{{ .Name }}]
-  data: {{ .Values.data }}
+  data: {{ toYAML .Values.data | nindent 4 }}
 statefulSet:
   name: {{ .Name }}
   runsOn: postgres
