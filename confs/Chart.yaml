@@ -1,9 +1,9 @@
 apiVersion: v2
-appVersion: {{ .Values.appVersion | default "1.0" }}
+appVersion: {{ .Values.appVersion | default "1.0" | quote }}
 description: {{ .Values.description | default "App description" }}
 name: {{ .Values.appName }}
 type: application
-version: {{ .Values.version | default "0.1.0" }}
+version: {{ .Values.version | default "0.1.0" | quote }}
 dependencies:
   - name: rikami
     repository: oci://ghcr.io/b-zago/rikami-charts
