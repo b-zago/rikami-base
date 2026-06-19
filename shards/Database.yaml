@@ -9,8 +9,7 @@ configMap:
   name: {{ .Name }}-config
   runsOn: {{ .Name }}-schema
   schemas:
-    schema.sql: |
-{{ .Values.schema | indent 6 }}
+    schema.sql: {{ .Values.schema }}
 
 atlasSchema:
   name: {{ .Name }}-schema
