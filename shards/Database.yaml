@@ -1,0 +1,26 @@
+secret:
+  name: {{ .Name }}-credentials
+  runsOn: {{ .Name }}-schema
+  runsOnList: [{{ .Name }}-schema]
+  data:
+    url: {{ .Values.url }}
+
+configMap:
+  name: {{ .Name }}-config
+  runsOn: {{ .Name }}-schema
+  schemas:
+    schema.sql: |
+{{ .Values.schema | indent 6 }}
+
+atlasSchema:
+  name: {{ .Name }}-schema
+  runsOn: {{ .Name }}-database
+  secretKey: url
+  secretName: {{ .Name }}-credentials
+  schemaCMName: {{ .Name }}-config
+  schemaCMKey: schema.sql
+
+database:
+  name: {{ .Name }}-database
+  cluster: {{ .Values.cluster | default "database-cluster" }}
+  databaseReclaimPolicy: {{ Values.databaseReclaimPolicy | default "retain" }}
