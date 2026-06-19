@@ -23,4 +23,4 @@ atlasSchema:
 database:
   name: {{ .Name }}-database
   cluster: {{ .Values.cluster | default "database-cluster" }}
-  databaseReclaimPolicy: {{ Values.databaseReclaimPolicy | default "retain" }}
+  databaseReclaimPolicy: {{ .Values.databaseReclaimPolicy | default "retain" }}
