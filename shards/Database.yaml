@@ -10,6 +10,17 @@ configMap:
   runsOn: {{ .Name }}-schema
   schemas:
     schema.sql: {{ .Values.schema }}
+    {{- if .Values.seed }}
+    seed.sql: {{ .Values.seed }}
+    {{- end }}
+
+{{- if .Values.seed }}
+seedPgJob:
+  name: {{ .Name }}-seed
+  runsOn: {{ .Name }}-database
+  secretName: {{ .Name }}-credentials
+  cmName: {{ .Name }}-config
+{{- end }}
 
 atlasSchema:
   name: {{ .Name }}-schema
